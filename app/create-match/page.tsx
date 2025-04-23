@@ -2,6 +2,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { Save, Star, Trash2, Trophy, UserPlus, Users } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+
 
 interface Player {
   name: string;
@@ -67,6 +70,14 @@ export default function CreateMatchPage() {
     if (team === 1) setteam1Players(update);
     else setteam2Players(update);
   };
+  
+  const router = useRouter();
+  const handleStartMatch = async () => {
+   
+     const res = await axios.post("/api/matchstart",{matchid});
+     //console.log(`done in findmatch in create-match ${res.data.message}`);
+    router.push(`live-match/${matchid}`); // Going to another tsx page 
+  };
 
   const handleSubmit = async () => {
     const matchData = {
@@ -82,7 +93,7 @@ export default function CreateMatchPage() {
     };
     try {
       const res = await axios.post("/api/match", matchData);
-      console.log("id response", res.data.data._id);
+      //console.log("id response", res.data.data._id);
       setMatchId(res.data.data._id);
       alert("Match Saved Successfully");
     } catch (err) {
@@ -91,7 +102,7 @@ export default function CreateMatchPage() {
     }
   };
 
-  console.log({matchid})
+ // console.log({matchid})
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12">
@@ -264,7 +275,7 @@ export default function CreateMatchPage() {
           <div className="flex justify-center">
   <button
     onClick={async () => {
-      await axios.post("/api/matchstart", { matchid });
+      handleStartMatch();
       alert("Match Started!");
     }}
     className="bg-green-600 hover:bg-green-700 transition-colors text-white px-4 py-2 mt-4 rounded"

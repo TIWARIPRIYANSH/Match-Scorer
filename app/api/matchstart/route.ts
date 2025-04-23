@@ -4,16 +4,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
+  console.log(`body-> ${body}`)
   const { matchid } = body;
+  console.log(`matchbody-> ${matchid}`)
   
   try {
     await connectdb();
+    //@ts-ignore
     const match = await Match.findByIdAndUpdate(
       matchid,
       { status: "ongoing" },
       { new: true }
     );
-    console.log(match);
+   
 
     if (!match) {
       return NextResponse.json(
