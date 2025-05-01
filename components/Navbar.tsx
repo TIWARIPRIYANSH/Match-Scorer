@@ -5,10 +5,10 @@ import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/add-match", label: "Add Match" },
+  { href: "/create-match", label: "Add Match" },
   { href: "/start-match", label: "Start Match" },
-  { href: "/live-match", label: "Live Match" },
-  { href: "/completed-matches", label: "View Matches" },
+  { href: "/All-Matches", label: "Live Match" },
+  { href: "/Completed-matches", label: "View Matches" },
 ];
 
 export default function Navbar() {

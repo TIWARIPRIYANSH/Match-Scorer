@@ -14,11 +14,11 @@ export async function POST(req:NextRequest) {
     const winnerteam=match.team1.stats.totalPoints>match.team2.stats.totalPoints ? match.team1 : match.team2;
     const winPoints=Math.abs(match.team1.stats.totalPoints-match.team2.stats.totalPoints);
     console.log("winnerteam->",winnerteam.name);
-    // it is we dont know somethung 
+    
      const updatedMatch=await Match.findByIdAndUpdate(
       matchid,
       {
-        status: "finished",
+        status: "completed",
         winner: {
           teamName: winnerteam.name,
           points: winnerteam.stats.totalPoints,
