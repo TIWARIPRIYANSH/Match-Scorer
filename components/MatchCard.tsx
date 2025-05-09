@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 interface TeamStats {
   raidPoints: number;
@@ -34,6 +35,14 @@ interface MatchCardProps {
 
 const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
   const { matchName, team1, team2, status, winner } = match;
+  const router = useRouter();
+  const viewMatchUrl=()=>{
+    const matchid=match._id;
+    console.log(`in MatchCard id -> ${matchid}`);
+    if (window.location.pathname !== `/View-Matches/${matchid}`) {
+      router.push(`/View-Matches/${matchid}`);
+    }
+  };
 
   return (
     <motion.div
@@ -71,7 +80,8 @@ const MatchCard: React.FC<MatchCardProps> = ({ match }) => {
       </div>
 
       <motion.button
-        whileTap={{ scale: 0.95 }}
+        whileTap={{ scale: 0.95 }} 
+        onClick={viewMatchUrl}
         className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded shadow hover:bg-indigo-700 transition"
       >
         View Match

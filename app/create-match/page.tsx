@@ -90,6 +90,7 @@ export default function CreateMatchPage() {
         name: team2,
         players: team2Players,
       },
+      
     };
     try {
       const res = await axios.post("/api/match", matchData);

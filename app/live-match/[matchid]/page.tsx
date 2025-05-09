@@ -7,7 +7,7 @@ import MatchTimer from "@/components/MatchTimer";
 
 const FinishMatchButton = ({ matchid }: { matchid: string }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const router= useRouter();
   const finishMatch = async () => {
     setIsLoading(true);
     try {
@@ -15,7 +15,7 @@ const FinishMatchButton = ({ matchid }: { matchid: string }) => {
       if (res.data?.message === "Match Finished") {
         console.log('winner-> in page', res.data);
         alert(`Winner: ${res.data.updatedMatch.winner.teamName} 🎉`);
-        // router.push("/completed-matches");
+      //  router.push(`View-Matches/${matchid}`);
       }
     } catch (err) {
       console.error("Error finishing match:", err);
@@ -63,7 +63,7 @@ export default function LiveMatch() {
   }, [params?.matchid]);
 
   const addPoint = async (
-    teamNumber: 1 | 2,
+    teamNumber: 1 | 2  ,
     playerIndex: number,
     pointtype: "raid" | "defence",
     point: number = 1
