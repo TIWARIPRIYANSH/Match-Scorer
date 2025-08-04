@@ -79,7 +79,7 @@ const AccountPanel = () => {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Settings</h2>
           <button
-            onClick={() => router.push('/settings')}
+            onClick={() => router.push('/Setting')}
             className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
           >
             Manage Settings

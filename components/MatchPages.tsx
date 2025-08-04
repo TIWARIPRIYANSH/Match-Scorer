@@ -17,8 +17,6 @@ export default function MatchesPage({ type = 'all' }: MatchesPageProps) {
       try {
        
         setLoading(true);
-
-      
         const res = await axios.get('/api/All-Matches');
         console.log("data in matchpages->",res.data);
         

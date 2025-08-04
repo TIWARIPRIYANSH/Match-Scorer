@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MatchTimer from "@/components/MatchTimer";
-
+//ADD FINISH MATCH BUTTON COMPONENT as beautiful .
 const FinishMatchButton = ({ matchid }: { matchid: string }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router= useRouter();
@@ -216,7 +216,7 @@ export default function LiveMatch() {
             Undo Last Action
           </button>
           
-          {(match?.status === "ongoing" || match?.status === "completed") && (
+          {(match?.status === "ongoing" || match?.status === "pending") && (
             <FinishMatchButton matchid={params.matchid} />
           )}
         </div>
