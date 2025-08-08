@@ -1,36 +1,70 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
- import { useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 const AccountPanel = () => {
-   const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
+
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get('/api/user/get'); // axios gives data. Always remember 
+        setUser(res.data.user);
+        setLoading(false);
+
+      } catch (err) {
+        setError('Error loading user data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (session) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
+  }, [session]);
+
+  if (status === 'loading' || loading) {
+    return <p className="text-center mt-6">Loading...</p>;
+  }
+
+  if (!session) {
+    return <p className="text-center mt-6">You must be signed in to view this page.</p>;
+  }
+
+  if (error) {
+    return <p className="text-center mt-6 text-red-500">{error}</p>;
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-gray-50 shadow rounded-xl mt-6">
-   
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-blue-600">Account Panel</h1>
           <p className="text-lg text-gray-500">Manage your account, plans, and match history</p>
         </div>
-        {/* User Avatar */}
         <div className="flex items-center space-x-3">
-          
           <span className="font-semibold text-lg">{session?.user?.name}</span>
         </div>
       </div>
 
-  
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-      
+        {/* Account Details */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Account Details</h2>
           <p className="text-gray-600">Name: {session?.user?.name}</p>
           <p className="text-gray-600">Email: {session?.user?.email}</p>
+          <p className="text-gray-600">Bio: {user?.bio || "No bio added yet"}</p>
           <button
             onClick={() => router.push('/account/update')}
             className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
@@ -39,7 +73,7 @@ const AccountPanel = () => {
           </button>
         </div>
 
-    
+        {/* Plans */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Plans</h2>
           <p className="text-gray-600">Current Plan: Premium</p>
@@ -52,7 +86,7 @@ const AccountPanel = () => {
           </button>
         </div>
 
-        
+        {/* Match History */}
         <div className="bg-white p-6 rounded-lg shadow-md col-span-1 sm:col-span-2">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Match History</h2>
           <p className="text-gray-600 mb-4">Browse and manage your saved match data.</p>
@@ -85,7 +119,6 @@ const AccountPanel = () => {
             Manage Settings
           </button>
         </div>
-
       </div>
     </div>
   );
